@@ -12,8 +12,8 @@ import java.io.Reader;
 import java.util.List;
 
 public class ContaController {
-    public final String mesagemContaOk = "Conta atualizada com sucesso.";
-    public final String mesagemContaErro = "Falha ao atualizar conta.";
+    private final String mesagemContaOk = "Conta atualizada com sucesso.";
+    private final String mesagemContaErro = "Falha ao atualizar conta.";
 
     private String retornarMensagemAtualizacaoConta(Boolean atualizada) {
         return atualizada ? mesagemContaOk : mesagemContaErro;
