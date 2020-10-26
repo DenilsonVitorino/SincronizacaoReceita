@@ -1,21 +1,19 @@
 package br.com.sicredi.test.api.model;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class ArquivoCSV {
 
+    @CsvBindByName
     private String agencia;
+    @CsvBindByName
     private String conta;
+    @CsvBindByName
     private Double saldo;
+    @CsvBindByName
     private String status;
-
-    public ArquivoCSV() {
-    }
-
-    public ArquivoCSV(String agencia, String conta, Double saldo, String status) {
-        this.agencia = agencia;
-        this.conta = conta;
-        this.saldo = saldo;
-        this.status = status;
-    }
+    @CsvBindByName
+    private String resultado;
 
     public String getAgencia() {
         return agencia;
@@ -47,5 +45,13 @@ public class ArquivoCSV {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(String resultado) {
+        this.resultado = resultado;
     }
 }
