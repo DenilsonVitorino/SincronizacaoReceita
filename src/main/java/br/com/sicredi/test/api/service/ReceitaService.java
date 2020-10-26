@@ -21,7 +21,6 @@ public class ReceitaService {
 
         // Formato conta: 000000
         if (conta == null || conta.length() != 6) {
-            System.out.println("Conta Erro:" + conta);
             return false;
         }
 

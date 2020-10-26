@@ -3,27 +3,17 @@ package br.com.sicredi.test.api.controller;
 import br.com.sicredi.test.api.model.Conta;
 import br.com.sicredi.test.api.service.ReceitaService;
 import br.com.sicredi.test.api.util.FormatUtil;
-import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.text.Format;
 import java.util.List;
 
 public class ContaController {
-    private final String mesagemContaOk = "Conta atualizada com sucesso.";
-    private final String mesagemContaErro = "Falha ao atualizar conta.";
+    public final String mesagemContaOk = "Conta atualizada com sucesso.";
+    public final String mesagemContaErro = "Falha ao atualizar conta.";
 
     private String retornarMensagemAtualizacaoConta(Boolean atualizada) {
         return atualizada ? mesagemContaOk : mesagemContaErro;
@@ -42,19 +32,7 @@ public class ContaController {
         }
     }
 
-    public void alimentarResponse(HttpServletResponse response, List<Conta> list) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException, IOException {
-        String filename = "retorno.csv";
-        response.setContentType("text/csv");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + filename + "\"");
-        StatefulBeanToCsv<Conta> writer = new StatefulBeanToCsvBuilder<Conta>(response.getWriter())
-                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                .withOrderedResults(false)
-                .build();
-        writer.write(list);
-    }
-
-    public void atualizar(List<Conta> contas) throws InterruptedException {
+    public List<Conta> atualizar(List<Conta> contas) throws InterruptedException {
         ReceitaService receitaService = new ReceitaService();
         FormatUtil formatUtil = new FormatUtil();
         for (int i = 0; i < contas.size(); i++) {
@@ -64,9 +42,11 @@ public class ContaController {
                     conta.getAgencia(),
                     contaSemSeparador,
                     conta.getSaldo(),
-                    conta.getStatus());
+                    conta.getStatus()
+            );
             String mensagemResultado = retornarMensagemAtualizacaoConta(contaAtualizada);
             conta.setResultado(mensagemResultado);
         }
+        return contas;
     }
 }

@@ -15,6 +15,17 @@ public class Conta {
     @CsvBindByName
     private String resultado;
 
+    public Conta() {
+    }
+
+    public Conta(String agencia, String conta, Double saldo, String status, String resultado) {
+        this.agencia = agencia;
+        this.conta = conta;
+        this.saldo = saldo;
+        this.status = status;
+        this.resultado = resultado;
+    }
+
     public String getAgencia() {
         return agencia;
     }

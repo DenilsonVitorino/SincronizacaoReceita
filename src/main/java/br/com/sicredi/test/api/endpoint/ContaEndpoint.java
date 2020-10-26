@@ -2,8 +2,12 @@ package br.com.sicredi.test.api.endpoint;
 
 import br.com.sicredi.test.api.controller.ContaController;
 import br.com.sicredi.test.api.model.Conta;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +25,15 @@ public class ContaEndpoint {
     private void upload(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws InterruptedException, IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
         ContaController contaController = new ContaController();
         List<Conta> contas = contaController.converterParaListaConta(file);
-        contaController.atualizar(contas);
-        contaController.alimentarResponse(response,contas);
+        contas = contaController.atualizar(contas);
+        String filename = "retorno.csv";
+        response.setContentType("text/csv");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + filename + "\"");
+        StatefulBeanToCsv<Conta> writer = new StatefulBeanToCsvBuilder<Conta>(response.getWriter())
+                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                .withOrderedResults(false)
+                .build();
+        writer.write(contas);
     }
 }
