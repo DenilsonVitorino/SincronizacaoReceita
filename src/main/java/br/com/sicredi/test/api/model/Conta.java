@@ -2,7 +2,7 @@ package br.com.sicredi.test.api.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class ArquivoCSV {
+public class Conta {
 
     @CsvBindByName
     private String agencia;
