@@ -1,1 +1,1 @@
-# sicredi-test-api
+# SincronizacaoReceita
