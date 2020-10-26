@@ -22,7 +22,7 @@ import java.util.List;
 public class ContaEndpoint {
 
     @PostMapping("/atualizar")
-    private void upload(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws InterruptedException, IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+    private void atualizar(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws InterruptedException, IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
         ContaController contaController = new ContaController();
         List<Conta> contas = contaController.converterParaListaConta(file);
         contas = contaController.atualizar(contas);
